@@ -86,7 +86,7 @@ int main()
 
     // Recieved data:
     // - Armed/Normal/Error (2 bits)
-    // - Channel 1 ignition code (int)      // ignition messages will be transmitted as a unique integer, so pyro channels aren't dependent on a single bit
+    // - Channel 1 ignition code (int)      // ignition messages will be transmitted as a unique integer, so pyro channels aren't dependent on a single bit (change b/c CRC?)
     // - Channel 2 ignition code (int)
 
     while (true) {
