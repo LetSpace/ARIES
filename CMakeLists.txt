@@ -46,7 +46,8 @@ pico_enable_stdio_usb(ARIES 1)
 
 # Add the standard library to the build
 target_link_libraries(ARIES
-        pico_stdlib)
+        pico_stdlib
+    )
 
 # Add the standard include files to the build
 target_include_directories(ARIES PRIVATE
@@ -56,6 +57,7 @@ target_include_directories(ARIES PRIVATE
 # Add any user requested libraries
 target_link_libraries(ARIES 
         hardware_spi
+        pico_nrf24
         )
 
 pico_add_extra_outputs(ARIES)

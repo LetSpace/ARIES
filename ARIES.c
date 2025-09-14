@@ -1,8 +1,19 @@
+// TODO 
+// - Add HX711 library and initialise
+// - Add NRF24L01 initialization
+// - Add SD library and initialise
+// - Add main loop functionality
+
+
+
+
+
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
+#include "pico-nrf24/lib/nrf24l01/nrf24_driver.h"
 
-// Pin Defines
+/*-------PIN DEFINES-------*/
 
 // SPI
 #define SPI_PORT spi1
@@ -41,7 +52,6 @@ int main()
     gpio_set_function(MISO, GPIO_FUNC_SPI);
     gpio_set_function(CS_NRF,   GPIO_FUNC_SIO);
     gpio_set_function(CS_SD,   GPIO_FUNC_SIO);
-    
     
     // Chip select is active-low, so we'll initialise it to a driven-high state
     gpio_set_dir(CS_NRF, GPIO_OUT);
