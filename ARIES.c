@@ -1,10 +1,8 @@
 // TODO 
-// - Add HX711 library and initialise
-// - Add NRF24L01 initialization
-// - Add SD library and initialise
-// - Add main loop functionality
-
-
+// - Radios: Cooper
+// - SD: Josh
+// - Pyro: Josh
+// - HX711: Cooper/Jacob
 
 
 
@@ -86,7 +84,11 @@ int main()
     // - Turn pyro channel on for 5s, then off
     // - Return to normal state
 
-    // Transmitted data:
+    // Radio Architechure
+    // PRX (Primary Receiver): ARIES test stand
+    // PTX (Primary Transmitter): ARC remote controller
+    
+    // PRX -> PTX data:
     // - Resistance 1 (int), mOhms
     // - Resistance 2 (int), mOhms
     // - Sensor data (int)
@@ -94,7 +96,7 @@ int main()
     // - Channel 2 ignition feedback (bit)
     // - Armed/Normal/Error (2 bits)
 
-    // Recieved data:
+    // PTX -> PRX data:
     // - Armed/Normal/Error (2 bits)
     // - Channel 1 ignition code (int)      // ignition messages will be transmitted as a unique integer, so pyro channels aren't dependent on a single bit (change b/c CRC?)
     // - Channel 2 ignition code (int)
