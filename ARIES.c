@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
-#include "pico-nrf24/lib/nrf24l01/nrf24_driver.h"
+#include "pico-nrf24-main/lib/nrf24l01/nrf24_driver.h"
 
 /*-------PIN DEFINES-------*/
 
@@ -88,7 +88,7 @@ int main()
     // PRX (Primary Receiver): ARIES test stand
     // PTX (Primary Transmitter): ARC remote controller
     
-    // PRX -> PTX data:
+    // PRX -> PTX data (transmitted regularly)
     // - Resistance 1 (int), mOhms
     // - Resistance 2 (int), mOhms
     // - Sensor data (int)
