@@ -38,6 +38,17 @@
 #define BUZZ 21
 #define LED 18
 
+enum SystemStates {
+    SCANNING,   // Looking for controller.
+    IDLE,       // Connected but disarmed.
+    ARMED,      // Armed, waiting for command to fire.
+    COUNTDOWN,  // Fire commanded, counting down from 10.
+    FIRING,     // Pyro channel active.
+    COOLDOWN,   // Pyro channel off, motor burning or cooling down.
+};
+
+enum SystemStates state = SCANNING; // Initial state at power up.
+
 int main()
 {
 
@@ -64,7 +75,8 @@ int main()
     // if arm switch is on, beep forever (to prohibit turning on while armed)
     // begin NRFL
     // begin SD, set up file structure
-    // begin HX711
+    // begin HX711 and tare
+    // setup interrupt routine for reading load cell
     
     // idle until NRFL connection is established
     //  if NRFL connection is ever lost, keep pyro channels low
