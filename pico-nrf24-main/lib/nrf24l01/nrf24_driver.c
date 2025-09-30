@@ -28,6 +28,7 @@ typedef enum device_mode_e
   RX_MODE
 } device_mode_t;
 
+
 /**
  * A global struct, which encapsulates pin_manager_t and spi_manager_t 
  * objects, which hold data relevant to the pin_manager, spi_manager 
@@ -757,7 +758,7 @@ fn_status_t nrf_driver_standby_mode(void) {
   }
 
   // deinitialise SPI at function end
-  spi_manager_deinit_spi(spi->instance);
+  //spi_manager_deinit_spi(spi->instance);
 
   return status;
 }
@@ -1392,4 +1393,23 @@ static fn_status_irq_t check_status_irq(uint8_t *rx_p_no) {
   }
 
   return asserted_bit;
+}
+
+// Added by Cooper/ChatGPT
+
+fn_status_t nrf_driver_fifo_status(fifo_status_t *status_out) {
+
+    if (status_out == NULL) {
+        return ERROR;
+    }
+
+    uint8_t fifo_status_reg = 0x11; //r_register_byte(FIFO_STATUS);
+
+    status_out->tx_reuse = (fifo_status_reg >> 6) & 0x01;
+    status_out->tx_full  = (fifo_status_reg >> 5) & 0x01;
+    status_out->tx_empty = (fifo_status_reg >> 4) & 0x01;
+    status_out->rx_full  = (fifo_status_reg >> 1) & 0x01;
+    status_out->rx_empty = (fifo_status_reg >> 0) & 0x01;
+
+    return SPI_MNGR_OK;
 }

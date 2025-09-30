@@ -23,6 +23,17 @@
 #include "hardware/spi.h"
 
 
+// Added by Cooper/ChatGPT
+typedef struct {
+    bool tx_full;
+    bool tx_empty;
+    bool tx_reuse;
+    bool rx_full;
+    bool rx_empty;
+} fifo_status_t;
+
+
+
 // SETUP_AW register address width (AW) settings
 typedef enum address_width_e
 {
@@ -208,6 +219,12 @@ typedef struct nrf_client_s
 
   // switch NRF24L01 to RX Mode
   fn_status_t (*receiver_mode)(void);
+
+  // Added by Cooper
+  void (*flush_tx_fifo)(void);
+  void (*flush_rx_fifo)(void);
+  fn_status_t (*fifo_status)(fifo_status_t *status);
+
 } nrf_client_t;
 
 

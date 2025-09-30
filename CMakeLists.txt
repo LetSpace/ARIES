@@ -34,7 +34,8 @@ project(ARIES C CXX ASM)
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
-
+add_subdirectory(pico-nrf24-main)
+add_subdirectory(RF24-master)
 add_executable(ARIES ARIES.c )
 
 pico_set_program_name(ARIES "ARIES")
@@ -57,7 +58,8 @@ target_include_directories(ARIES PRIVATE
 # Add any user requested libraries
 target_link_libraries(ARIES 
         hardware_spi
-        pico_nrf24
+        nrf24_driver
+        RF24
         )
 
 pico_add_extra_outputs(ARIES)
