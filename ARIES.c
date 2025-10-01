@@ -261,9 +261,10 @@ int main() {
                     #endif
                     aries_data.pyro_1_feedback = PYRO_ON;
                     gpio_put(PYRO_1, 1);
-                    sleep_ms(5000);
+                    sleep_ms(1000);
                     gpio_put(PYRO_1, 0);
                     aries_data.pyro_1_feedback = PYRO_OFF;
+                    arc_data.pyro_1 = NO_COMMAND; // reset command
                 }
                 
             }
@@ -272,5 +273,3 @@ int main() {
         
     }
 }
-
-

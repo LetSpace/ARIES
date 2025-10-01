@@ -6,8 +6,8 @@
 #define DEBUG
 
 // Radio Addresses
-//#define ARIES_ADDRESS {0x41, 0x52, 0x49, 0x45, 0x53} // "ARIES"
-//#define ARC_ADDRESS {0x43, 0x52, 0x49, 0x53, 0x31} // "CRIS1"
+#define ARIES_ADDRESS {0x41, 0x52, 0x49, 0x45, 0x53} // "ARIES"
+#define CRIS_ADDRESS {0x43, 0x52, 0x49, 0x53, 0x31} // "CRIS1"
 
 // Pin assignments
 #define CSN 8
@@ -70,10 +70,10 @@ typedef struct {
   bool arm;
 } button_data_t;
 
-//NRFL
+// NRFL
 RF24 radio(CE, CSN);
-const uint8_t aries_address[5] = "ARIES";
-const uint8_t cris_address[5] = "CRIS1";
+const uint8_t aries_address[5] = ARIES_ADDRESS;
+const uint8_t cris_address[5] = CRIS_ADDRESS;
 
 unsigned long last_recieve_time = 0;
 
@@ -90,6 +90,50 @@ button_data_t buttons = {true, true, true};
 
 button_data_t buttons_last = {true, true, true};
 
+
+
+pyro_command_t pyroConfirm(int pyroNum, int buttonNum) {
+  lcd.clear();
+  lcd.setCursor(3, 0);
+  lcd.print("WAITING...");
+  delay(1000);
+  lcd.clear();
+  lcd.setCursor(1, 0);
+  lcd.print("CONFIRM  PYRO");
+  lcd.setCursor(14, 0);
+  lcd.print(pyroNum);
+  lcd.setCursor(4, 1);
+  lcd.print("IGNITION");
+  unsigned long timeoutTime = millis() + 10000; // 10s Timeout
+  while(millis() < timeoutTime) {
+    if(digitalRead(buttonNum) == LOW && digitalRead(ARM_SWITCH) == LOW) {
+      lcd.clear();
+      lcd.setCursor(4, 0);
+      lcd.print("IGNITING");
+      lcd.setCursor(5, 1);
+      lcd.print("PYRO");
+      lcd.setCursor(10, 1);
+      lcd.print(pyroNum);
+      delay(1000);
+      return IGNITE;
+    }
+    if(digitalRead(ARM_SWITCH) == HIGH) {
+      break;
+    }
+  }
+  lcd.clear();
+  lcd.setCursor(4, 0);
+  lcd.print("ABORTED");
+  lcd.setCursor(4, 1);
+  lcd.print("PYRO");
+  lcd.setCursor(10, 1);
+  lcd.print(pyroNum);
+  delay(1000);
+  return NO_COMMAND;  
+}
+
+
+
 void setup() {
   Serial.begin(9600);
 
@@ -104,7 +148,7 @@ void setup() {
   // NRFL
   if(!radio.begin()) {
     Serial.println(F("\nRadio hardware not responding!"));
-  while (1) {} // hold program in infinite loop to prevent subsequent errors
+    while (true) {} // hold program in infinite loop to prevent subsequent errors
   }
   else {
     Serial.println("\nNRFL init Success!\n");
@@ -126,11 +170,19 @@ void setup() {
     while(true) {}
   }
 
-  //LCD
+  // LCD
   lcd.begin();
   lcd.backlight();
 
-  delay(1000);
+  // Check Arm Switch
+  if(digitalRead(ARM_SWITCH) == LOW) {
+    lcd.setCursor(2, 0);
+    lcd.print("ARM LOCKOUT");
+    lcd.setCursor(0, 1);
+    lcd.print("Disarm & Restart");
+    while (true) {}
+  }
+
 }
 
 void loop() {
@@ -148,35 +200,68 @@ void loop() {
   
   // Check for new button data
   if (buttons.button1 != buttons_last.button1 || buttons.button2 != buttons_last.button2 || buttons.arm != buttons_last.arm) {
-    // #ifdef DEBUG
-    //   Serial.println("NEW BUTTON DATA");
-    //   Serial.print("Button1 Value: "); Serial.println(buttons.button1);
-    //   Serial.print("Button2 Value: "); Serial.println(buttons.button2);
-    //   Serial.print("Arm Switch Value: "); Serial.println(buttons.arm);
-    // #endif
-    //put data in struct
-    arc_data.ptx_status = (buttons.arm == LOW) ? STATUS_ARMED : STATUS_NORMAL;
-    if (buttons.arm == LOW) {
-        arc_data.pyro_1 = (buttons.button1 == LOW) ? IGNITE : NO_COMMAND;
-        arc_data.pyro_2 = (buttons.button2 == LOW) ? IGNITE : NO_COMMAND;
-    }
+    #ifdef DEBUG
+      Serial.println("NEW BUTTON DATA");
+      Serial.print("Button1 Value: "); Serial.println(buttons.button1);
+      Serial.print("Button2 Value: "); Serial.println(buttons.button2);
+      Serial.print("Arm Switch Value: "); Serial.println(buttons.arm);
+    #endif
+
+    
+    // Update LEDs
     digitalWrite(LED1, !buttons.button1);
     digitalWrite(LED2, !buttons.button2);
     digitalWrite(LED_ARM, !buttons.arm);
-    //send data struct
-    #ifdef DEBUG
-    Serial.println("SENDING DATA");
-    Serial.print("ptx_status: "); Serial.println((arc_data.ptx_status == STATUS_ARMED) ? "STATUS_ARMED" : "STATUS_NORMAL");
-    Serial.print("pyro_1: "); Serial.println((arc_data.pyro_1 == IGNITE) ? "IGNITE" : "NO_COMMAND");
-    Serial.print("pyro_2: "); Serial.println((arc_data.pyro_2 == IGNITE) ? "IGNITE" : "NO_COMMAND");
-    #endif
-    //delay(2000);
-    radio.stopListening();
-    radio.write(&arc_data, sizeof(arc_data));
-    delay(5);
-    radio.startListening();
-    radio.flush_tx();
-    //update buttons_last
+
+    //Procecss pyro ignition inputs
+    arc_data.ptx_status = (buttons.arm == LOW) ? STATUS_ARMED : STATUS_NORMAL;
+    if (buttons.arm == LOW) {
+        if (buttons.button1 == LOW) {
+          while(digitalRead(BUTTON1) == LOW) {}
+          arc_data.pyro_1 = pyroConfirm(1, BUTTON1);
+          lcdReset = true;
+        }
+        else if (buttons.button2 == LOW) {
+          while(digitalRead(BUTTON2) == LOW) {}
+          arc_data.pyro_1 = pyroConfirm(2, BUTTON2);
+          lcdReset = true;
+        }
+    }
+    
+    
+    // Only send a transmission if a pyro command is issued (temporary measure to decrease number of transmissions)
+    if(arc_data.pyro_1 == IGNITE || arc_data.pyro_2 == IGNITE) {
+      // Send data struct
+      #ifdef DEBUG
+      Serial.println("SENDING DATA");
+      Serial.print("ptx_status: "); Serial.println((arc_data.ptx_status == STATUS_ARMED) ? "STATUS_ARMED" : "STATUS_NORMAL");
+      Serial.print("pyro_1: "); Serial.println((arc_data.pyro_1 == IGNITE) ? "IGNITE" : "NO_COMMAND");
+      Serial.print("pyro_2: "); Serial.println((arc_data.pyro_2 == IGNITE) ? "IGNITE" : "NO_COMMAND");
+      #endif
+      radio.stopListening();
+      bool success = radio.write(&arc_data, sizeof(arc_data));
+      delay(5);
+      lcd.clear();
+      if(success) {
+        lcd.setCursor(3, 0);
+        lcd.print("TX Success!");
+      } else {
+        lcd.setCursor(3, 0);
+        lcd.print("TX Failure!");
+      }
+      delay(2000);
+      lcd.clear();
+      radio.startListening();
+      radio.flush_tx();
+    }
+
+    // Reset Data
+    arc_data.pyro_1 = NO_COMMAND;
+    arc_data.pyro_2 = NO_COMMAND;
+
+
+
+    // Update buttons_last
     buttons_last.button1 = buttons.button1;
     buttons_last.button2 = buttons.button2;
     buttons_last.arm = buttons.arm;
@@ -224,11 +309,13 @@ void loop() {
     }
   }
 
-  if ((millis() - last_recieve_time) > 2000 && !lcdReset) {
+  if ((millis() - last_recieve_time) > 2000) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("No Connection!");
     lcdReset = true;
+    delay(100);
   }
 
 }
+
