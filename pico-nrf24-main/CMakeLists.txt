@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 # Pull in SDK (must be before project)
-include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+include(../pico_sdk_import.cmake)
 
 project(pico_nrf24 
   VERSION 1.0 
