@@ -10,6 +10,8 @@
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
 #include "pico-nrf24-main/lib/nrf24l01/nrf24_driver.h"
+#include "hx711-pico-c-main/include/common.h"
+
 
 /*-------PIN DEFINES-------*/
 
@@ -74,6 +76,20 @@ typedef struct {
     status_t prx_status; // 0 = normal, 1 = armed, 2 = error
 } aries_data_t;
 
+bool armed = false;
+
+aries_data_t aries_data = {-1, -1, -1, PYRO_OFF, PYRO_OFF, STATUS_NORMAL};
+arc_data_t arc_data = {NO_COMMAND, NO_COMMAND, STATUS_NORMAL};
+
+hx711_t loadCell;
+
+void adc_callback(uint gpio, uint32_t events) {
+    hx711_get_value_noblock(&loadCell, &aries_data.sensor_data);
+    if(armed) {
+        // TODO SD WRITE
+    }
+}
+
 
 int main() {
 
@@ -106,6 +122,9 @@ int main() {
     gpio_put(PYRO_2, 0);
     gpio_put(BUZZ, 0);
     gpio_put(LED, 0);
+
+
+    
 
     // if arm switch is on, beep forever (to prohibit turning on while armed)
 
@@ -177,18 +196,31 @@ int main() {
 
     //Tx/Rx data structures
 
-    aries_data_t aries_data;
-        aries_data.resistance_1 = -1;
-        aries_data.resistance_2 = -1;
-        aries_data.sensor_data = -1;
-        aries_data.pyro_1_feedback = PYRO_OFF;
-        aries_data.pyro_2_feedback = PYRO_OFF;
-        aries_data.prx_status = STATUS_NORMAL;
+    
+        // aries_data.resistance_1 = -1;
+        // aries_data.resistance_2 = -1;
+        // aries_data.sensor_data = -1;
+        // aries_data.pyro_1_feedback = PYRO_OFF;
+        // aries_data.pyro_2_feedback = PYRO_OFF;
+        // aries_data.prx_status = STATUS_NORMAL;
 
-    arc_data_t arc_data;
-        arc_data.pyro_1 = NO_COMMAND;
-        arc_data.pyro_2 = NO_COMMAND;
-        arc_data.ptx_status = STATUS_NORMAL;
+    
+        // arc_data.pyro_1 = NO_COMMAND;
+        // arc_data.pyro_2 = NO_COMMAND;
+        // arc_data.ptx_status = STATUS_NORMAL;
+
+    // HX711 Setup
+    hx711_config_t hxconfig;
+    hx711_get_default_config(&hxconfig);
+    hxconfig.clock_pin = ADC_CLK;
+    hxconfig.data_pin = ADC_DAT;
+
+    
+    hx711_init(&loadCell, &hxconfig);
+    hx711_power_up(&loadCell, hx711_gain_128);
+    hx711_wait_settle(hx711_rate_80);
+
+    gpio_set_irq_enabled_with_callback(ADC_DAT, GPIO_IRQ_EDGE_FALL, true, &adc_callback); // TODO
 
     /*------MAIN LOOP-------*/
 
@@ -273,3 +305,5 @@ int main() {
         
     }
 }
+
+
