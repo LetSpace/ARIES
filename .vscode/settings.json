@@ -40,6 +40,7 @@
     "files.associations": {
         "stdlib.h": "c",
         "time.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "hw_config.h": "c"
     }
 }

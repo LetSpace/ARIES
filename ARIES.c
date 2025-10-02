@@ -11,6 +11,7 @@
 #include "hardware/spi.h"
 #include "pico-nrf24-main/lib/nrf24l01/nrf24_driver.h"
 #include "hx711-pico-c-main/include/common.h"
+#include "pico/time.h"
 
 
 /*-------PIN DEFINES-------*/
@@ -91,21 +92,52 @@ void adc_callback(uint gpio, uint32_t events) {
 }
 
 
+/* ----- SD CARD HARDWARE DEFINITION ----- */
+#include "hw_config.h"
+#include "f_util.h"
+#include "ff.h"
+
+// Configuration of hardware SPI object
+static spi_t spi = {
+    .hw_inst = SPI_PORT,
+    .sck_gpio = SCK,
+    .mosi_gpio = MOSI,
+    .miso_gpio = MISO,
+    .baud_rate = 125 * 1000 * 1000 / 4  // 31250000 Hz
+};
+
+// SPI Interface
+static sd_spi_if_t spi_if = {
+    .spi = &spi,  // Pointer to the SPI driving this card
+    .ss_gpio = CS_SD  // The SPI slave select GPIO for this SD card
+};
+
+// Configuration of the SD Card socket object
+static sd_card_t sd_card = {
+    .type = SD_IF_SPI,
+    .spi_if_p = &spi_if  // Pointer to the SPI interface driving this card
+};
+
+size_t sd_get_num() { return 1; }
+
+sd_card_t *sd_get_by_num(size_t num) {
+    if (0 == num) {
+        return &sd_card;
+    } else {
+        return NULL;
+    }
+}
+
 int main() {
 
     /*------SETUP-------*/
     stdio_init_all();
 
-    // SPI Setup
-    spi_init(SPI_PORT, 1000*1000);
-    gpio_set_function(SCK,  GPIO_FUNC_SPI);
-    gpio_set_function(MOSI, GPIO_FUNC_SPI);
-    gpio_set_function(MISO, GPIO_FUNC_SPI);
-    gpio_set_function(CS_SD,   GPIO_FUNC_SIO);
-    
     //Drive CS High (active low)
     gpio_set_dir(CS_SD, GPIO_OUT);
     gpio_put(CS_SD, 1);
+    gpio_set_dir(CS_NRF, GPIO_OUT);
+    gpio_put(CS_NRF, 1);
 
     // initialize GPIO
     gpio_init(PYRO_1);
@@ -128,6 +160,50 @@ int main() {
 
     // if arm switch is on, beep forever (to prohibit turning on while armed)
 
+    // SD Card Setup
+    sleep_ms(5000);
+    puts("Hello, world!");
+
+    // See FatFs - Generic FAT Filesystem Module, "Application Interface",
+    // http://elm-chan.org/fsw/ff/00index_e.html
+    FATFS fs;
+    FRESULT fr = f_mount(&fs, "", 1);
+    if (FR_OK != fr) {
+        printf("f_mount error: %s (%d)\n", FRESULT_str(fr), fr);
+    }
+    else {
+        // Open a file and write to it
+        FIL fil;
+        const char* const filename = "filename.txt";
+        fr = f_open(&fil, filename, FA_OPEN_APPEND | FA_WRITE);
+        if (FR_OK != fr && FR_EXIST != fr) {
+            printf("f_open(%s) error: %s (%d)\n", filename, FRESULT_str(fr), fr);
+        }
+        else {
+            if (f_printf(&fil, "Hello, world!\n") < 0) {
+                printf("f_printf failed\n");
+            }
+
+            // Close the file
+            fr = f_close(&fil);
+            if (FR_OK != fr) {
+                printf("f_close error: %s (%d)\n", FRESULT_str(fr), fr);
+            }
+
+            // Unmount the SD card
+            f_unmount("");
+        }
+    }
+
+    puts("Goodbye, world!");
+
+    // SPI Setup
+    spi_init(SPI_PORT, 1000*1000);
+    gpio_set_function(SCK,  GPIO_FUNC_SPI);
+    gpio_set_function(MOSI, GPIO_FUNC_SPI);
+    gpio_set_function(MISO, GPIO_FUNC_SPI);
+    gpio_set_function(CS_SD,   GPIO_FUNC_SIO);
+    
     // NRFL Setup
     pin_manager_t nrfl_pins = {
         .ce = EN_NRF,
