@@ -7,6 +7,7 @@
 #define DEBUG
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
 #include "pico-nrf24-main/lib/nrf24l01/nrf24_driver.h"
@@ -156,48 +157,59 @@ int main() {
     gpio_put(LED, 0);
 
 
-    
-
     // if arm switch is on, beep forever (to prohibit turning on while armed)
 
-    // SD Card Setup
-    sleep_ms(5000);
-    puts("Hello, world!");
 
-    // See FatFs - Generic FAT Filesystem Module, "Application Interface",
-    // http://elm-chan.org/fsw/ff/00index_e.html
+    // Mount SD Card
+    // See http://elm-chan.org/fsw/ff/00index_e.html
     FATFS fs;
     FRESULT fr = f_mount(&fs, "", 1);
     if (FR_OK != fr) {
-        printf("f_mount error: %s (%d)\n", FRESULT_str(fr), fr);
-    }
-    else {
-        // Open a file and write to it
-        FIL fil;
-        const char* const filename = "filename.txt";
-        fr = f_open(&fil, filename, FA_OPEN_APPEND | FA_WRITE);
-        if (FR_OK != fr && FR_EXIST != fr) {
-            printf("f_open(%s) error: %s (%d)\n", filename, FRESULT_str(fr), fr);
-        }
-        else {
-            if (f_printf(&fil, "Hello, world!\n") < 0) {
-                printf("f_printf failed\n");
-            }
-
-            // Close the file
-            fr = f_close(&fil);
-            if (FR_OK != fr) {
-                printf("f_close error: %s (%d)\n", FRESULT_str(fr), fr);
-            }
-
-            // Unmount the SD card
-            f_unmount("");
-        }
+        panic("f_mount error: %s (%d)\n", FRESULT_str(fr), fr);
     }
 
-    puts("Goodbye, world!");
+    // Find next free filename
+    DIR dir;
+    FILINFO finfo;
+    int maxfileno = 0;
 
-    // SPI Setup
+    fr = f_opendir(&dir, "");                   /* Open the directory */
+    if (fr == FR_OK) {
+        for (;;) {
+            fr = f_readdir(&dir, &finfo);           /* Read a directory item */
+            if (finfo.fname[0] == 0) break;          /* Error or end of dir */
+            if (finfo.fattrib & AM_DIR) {            /* It is a directory */
+                continue;
+            } else {                               /* It is a file */
+                // check filename for number
+                int num;
+                if(sscanf(finfo.fname, "log%d.csv", &num)) { // If match found...
+                    maxfileno = MAX(num, maxfileno);
+                }
+            }
+        }
+        f_closedir(&dir);
+    } else {
+        printf("Failed to open root dir. %s (%d)\n", FRESULT_str(fr), fr);
+    }
+
+    FIL file;
+    char filename[32];
+    sprintf(filename, "log%d.csv", maxfileno + 1);
+    printf("Next free filename: %s\n", filename);
+
+    // Open log file and write column headers to it:
+    //   time: current time since startup in ms.
+    //   force: current load cell reading.
+    //   pyro1r: resistance on channel 1.
+    //   pyro2r: resistance on channel 2.
+    //   event: usually empty, marks major state changes (arm, fire, etc).
+    FIL logfile;
+    fr = f_open(&logfile, filename, FA_OPEN_APPEND | FA_WRITE);
+    f_printf(&logfile, "time, force, pyro1r, pyr2r, event\n");
+    fr = f_close(&logfile);
+
+    // SPI Setup (must be done after SD card setup)
     spi_init(SPI_PORT, 1000*1000);
     gpio_set_function(SCK,  GPIO_FUNC_SPI);
     gpio_set_function(MOSI, GPIO_FUNC_SPI);
