@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
+#include "hardware/adc.h"
 #include "pico-nrf24-main/lib/nrf24l01/nrf24_driver.h"
 #include "hx711-pico-c-main/include/common.h"
 #include "pico/time.h"
@@ -129,6 +130,24 @@ sd_card_t *sd_get_by_num(size_t num) {
     }
 }
 
+const float adc_conversion_factor = 3.3f / (1 << 12);
+
+// Returns the voltage after the arm switch.
+float get_arm_sense() {
+    adc_select_input(2);
+    return adc_read() * adc_conversion_factor * 4;
+}
+
+// Returns the resistance on the given channel (1 or 2) in miliohms.
+int32_t get_resistance(int channel) {
+    float v_arm = get_arm_sense();
+
+    adc_select_input(channel - 1);
+    float v_d = adc_read() * adc_conversion_factor * 4; // voltage at mosfet drain
+    float resistance = (v_arm - v_d) / (v_d / 400);
+    return resistance * 1000;
+}
+
 int main() {
 
     /*------SETUP-------*/
@@ -155,6 +174,12 @@ int main() {
     gpio_put(PYRO_2, 0);
     gpio_put(BUZZ, 0);
     gpio_put(LED, 0);
+
+    // ADC Setup
+    adc_init();
+    adc_gpio_init(ARM_SENSE);
+    adc_gpio_init(PYRO_SENSE_1);
+    adc_gpio_init(PYRO_SENSE_2);
 
 
     // if arm switch is on, beep forever (to prohibit turning on while armed)
@@ -230,7 +255,7 @@ int main() {
         .address_width = AW_5_BYTES,
         .dyn_payloads = DYNPD_ENABLE,
         .data_rate = RF_DR_1MBPS,
-        .power = RF_PWR_NEG_12DBM,
+        .power = RF_PWR_0DBM,
         .retr_count = ARC_10RT,
         .retr_delay = ARD_500US
     };
@@ -317,7 +342,8 @@ int main() {
         
         absolute_time_t endTime = make_timeout_time_ms(1000); // 1 second loop
         
-        aries_data.resistance_1 = time_us_32() % 1000; // placeholder for real resistance reading
+        aries_data.resistance_1 = get_resistance(1);
+        aries_data.resistance_2 = get_resistance(2);
 
         // Transmit data
         if(nrfl_client.standby_mode() == ERROR) {

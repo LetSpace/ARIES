@@ -41,6 +41,7 @@
         "stdlib.h": "c",
         "time.h": "c",
         "string.h": "c",
-        "hw_config.h": "c"
+        "hw_config.h": "c",
+        "adc.h": "c"
     }
 }

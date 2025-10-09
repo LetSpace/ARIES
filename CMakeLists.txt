@@ -59,6 +59,7 @@ target_include_directories(ARIES PRIVATE
 # Add any user requested libraries
 target_link_libraries(ARIES 
         hardware_spi
+        hardware_adc
         hardware_pio
         nrf24_driver
         hx711-pico-c
