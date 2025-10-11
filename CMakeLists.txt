@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+
 # Initialise pico_sdk from installed location
 # (note this can come from environment, CMake cache etc)
 
@@ -60,6 +61,7 @@ target_include_directories(ARIES PRIVATE
 target_link_libraries(ARIES 
         hardware_spi
         hardware_pio
+        hardware_adc
         nrf24_driver
         hx711-pico-c
         no-OS-FatFS-SD-SDIO-SPI-RPi-Pico

@@ -8,11 +8,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h> 
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
+#include "hardware/adc.h"
 #include "pico-nrf24-main/lib/nrf24l01/nrf24_driver.h"
 #include "hx711-pico-c-main/include/common.h"
 #include "pico/time.h"
+#include "hw_config.h"
+#include "f_util.h"
+#include "ff.h"
+#include "pico/flash.h"
+#include "hardware/flash.h"
 
 
 /*-------PIN DEFINES-------*/
@@ -35,6 +42,9 @@
 #define ARM_SENSE 28
 #define PYRO_SENSE_1 27
 #define PYRO_SENSE_2 26
+#define ADC_ARM 2
+#define ADC_PYRO_1 1
+#define ADC_PYRO_2 0
 
 //MOSFETs
 #define PYRO_1 20
@@ -78,25 +88,31 @@ typedef struct {
     status_t prx_status; // 0 = normal, 1 = armed, 2 = error
 } aries_data_t;
 
-bool armed = false;
 
 aries_data_t aries_data = {-1, -1, -1, PYRO_OFF, PYRO_OFF, STATUS_NORMAL};
 arc_data_t arc_data = {NO_COMMAND, NO_COMMAND, STATUS_NORMAL};
 
 hx711_t loadCell;
+volatile bool adc_ready = false;
+volatile int32_t irq_sensor_data = 0;
+
+FIL logfile;
 
 void adc_callback(uint gpio, uint32_t events) {
-    hx711_get_value_noblock(&loadCell, &aries_data.sensor_data);
-    if(armed) {
-        // TODO SD WRITE
+    int32_t val;
+    if (hx711_get_value_noblock(&loadCell, &val)) {
+        irq_sensor_data = val;
+        adc_ready = true;
     }
 }
 
+float read_adc(uint8_t channel) {
+    const float conversion_factor = 3.3f / (1 << 12);
+    adc_select_input(channel);
+    return adc_read() * conversion_factor;
+}
 
 /* ----- SD CARD HARDWARE DEFINITION ----- */
-#include "hw_config.h"
-#include "f_util.h"
-#include "ff.h"
 
 // Configuration of hardware SPI object
 static spi_t spi = {
@@ -104,7 +120,7 @@ static spi_t spi = {
     .sck_gpio = SCK,
     .mosi_gpio = MOSI,
     .miso_gpio = MISO,
-    .baud_rate = 125 * 1000 * 1000 / 4  // 31250000 Hz
+    .baud_rate = 1 * 1000 * 1000 //125 * 1000 * 1000 / 4  // 31250000 Hz changed to 1 MHz to match nrfl
 };
 
 // SPI Interface
@@ -129,10 +145,12 @@ sd_card_t *sd_get_by_num(size_t num) {
     }
 }
 
-int main() {
 
+int main() {
     /*------SETUP-------*/
     stdio_init_all();
+    //sleep_ms(5000);
+    //printf("Hello");
 
     //Drive CS High (active low)
     gpio_set_dir(CS_SD, GPIO_OUT);
@@ -156,10 +174,18 @@ int main() {
     gpio_put(BUZZ, 0);
     gpio_put(LED, 0);
 
+    // ADC
+    adc_init();
+    adc_gpio_init(ARM_SENSE);
+    adc_gpio_init(PYRO_SENSE_1);
+    adc_gpio_init(PYRO_SENSE_2);
+    adc_select_input(ADC_ARM);
 
     // if arm switch is on, beep forever (to prohibit turning on while armed)
-
-
+    if (read_adc(ADC_ARM) > 2) {
+        gpio_put(BUZZ, 1);
+        while (true) {}
+    }
     // Mount SD Card
     // See http://elm-chan.org/fsw/ff/00index_e.html
     FATFS fs;
@@ -204,17 +230,10 @@ int main() {
     //   pyro1r: resistance on channel 1.
     //   pyro2r: resistance on channel 2.
     //   event: usually empty, marks major state changes (arm, fire, etc).
-    FIL logfile;
+    
     fr = f_open(&logfile, filename, FA_OPEN_APPEND | FA_WRITE);
-    f_printf(&logfile, "time, force, pyro1r, pyr2r, event\n");
+    f_printf(&logfile, "time, force, pyro1r, pyro2r, event\n");
     fr = f_close(&logfile);
-
-    // SPI Setup (must be done after SD card setup)
-    spi_init(SPI_PORT, 1000*1000);
-    gpio_set_function(SCK,  GPIO_FUNC_SPI);
-    gpio_set_function(MOSI, GPIO_FUNC_SPI);
-    gpio_set_function(MISO, GPIO_FUNC_SPI);
-    gpio_set_function(CS_SD,   GPIO_FUNC_SIO);
     
     // NRFL Setup
     pin_manager_t nrfl_pins = {
@@ -235,7 +254,7 @@ int main() {
         .retr_delay = ARD_500US
     };
 
-    uint32_t nrfl_baudrate = 1000000; // 1 MHz
+    uint32_t nrfl_baudrate = 1000 * 1000; // 1 MHz
     uint8_t pipe_number = 0;
     fn_status_t tx_success;
 
@@ -263,8 +282,7 @@ int main() {
             printf("\nNRFL init failure");
             sleep_ms(1000);
         }
-    };
-    
+    };  
     if (nrfl_client.rx_destination(DATA_PIPE_1, aries_address) == ERROR) {
         while (true) {
             printf("\nNRFL RX address failure");
@@ -282,50 +300,57 @@ int main() {
     sleep_ms(1);
     printf("NRFL init success");
 
-    //Tx/Rx data structures
-
-    
-        // aries_data.resistance_1 = -1;
-        // aries_data.resistance_2 = -1;
-        // aries_data.sensor_data = -1;
-        // aries_data.pyro_1_feedback = PYRO_OFF;
-        // aries_data.pyro_2_feedback = PYRO_OFF;
-        // aries_data.prx_status = STATUS_NORMAL;
-
-    
-        // arc_data.pyro_1 = NO_COMMAND;
-        // arc_data.pyro_2 = NO_COMMAND;
-        // arc_data.ptx_status = STATUS_NORMAL;
-
     // HX711 Setup
     hx711_config_t hxconfig;
     hx711_get_default_config(&hxconfig);
     hxconfig.clock_pin = ADC_CLK;
     hxconfig.data_pin = ADC_DAT;
 
-    
+    // gpio_put(ADC_CLK, 0);
+    // sleep_ms(50);
+
     hx711_init(&loadCell, &hxconfig);
     hx711_power_up(&loadCell, hx711_gain_128);
-    hx711_wait_settle(hx711_rate_80);
+    hx711_wait_settle(hx711_rate_10);
+    sleep_ms(500);
+
+    int32_t test_val;
+    const uint timeout = 250000; //microseconds
+    if(hx711_get_value_timeout(&loadCell, &test_val, timeout)) {
+        printf("\nBlocking HX711 value: %" PRId32 "\n", test_val);
+    } else {
+        printf("\nHX711 blocking read failed\n");
+    }
+
 
     gpio_set_irq_enabled_with_callback(ADC_DAT, GPIO_IRQ_EDGE_FALL, true, &adc_callback); // TODO
 
+
     /*------MAIN LOOP-------*/
 
+    int buzz_counter = 0;
     int packets_read = 0;
     while (true) {
+        printf("Main Loop Start");
+
+        if (aries_data.prx_status == STATUS_ARMED) { // beep every 5 seconds if armed
+            if (buzz_counter >= 5) {  
+                gpio_put(BUZZ, 1);
+                sleep_ms(50);
+                gpio_put(BUZZ, 0);
+                buzz_counter = 0;
+            }
+            buzz_counter++;
+        }
         
         absolute_time_t endTime = make_timeout_time_ms(1000); // 1 second loop
         
         aries_data.resistance_1 = time_us_32() % 1000; // placeholder for real resistance reading
-
+        
         // Transmit data
         if(nrfl_client.standby_mode() == ERROR) {
             printf("\nNRFL standby failure");
         }
-        // if (nrfl_client.tx_destination(cris_address) == ERROR) {
-        //     printf("\nNRFL TX address failure");
-        // }
 
         printf("\nTransmitting data...");
         printf("\n - Resistance 1: %d mOhms", aries_data.resistance_1);
@@ -334,14 +359,15 @@ int main() {
         printf("\n - Pyro 1 feedback: %d", aries_data.pyro_1_feedback);
         printf("\n - Pyro 2 feedback: %d", aries_data.pyro_2_feedback);
         printf("\n - PRX status: %d", aries_data.prx_status);
+        printf("\n - ARMSENSE: %f", read_adc(ADC_ARM));
         tx_success = nrfl_client.send_packet(&aries_data, sizeof(aries_data));
         if (tx_success == ERROR) {
-            printf("\nTX failure");
+            printf("\nTX failure\n");
 
             nrfl_client.standby_mode();
             nrfl_client.receiver_mode();
         } else {
-            printf("\nTX success");
+            printf("\nTX success\n");
         }
 
         // doesn't work
@@ -352,33 +378,40 @@ int main() {
         //         fifo.rx_empty, fifo.rx_full);
         // }
 
-
-        nrfl_client.receiver_mode();
+        nrfl_client.receiver_mode(); 
         //nrfl_client.flush_rx_fifo();
-
+        printf("Listening for data...\n");
+        
         while(!time_reached(endTime)) {
             // Check for data from ARC
             while(nrfl_client.is_packet(&pipe_number)) {
                 packets_read++;
-                #ifdef DEBUG
                     printf("Data available...");
-                #endif
                 if (nrfl_client.read_packet(&arc_data, sizeof(arc_data)) == ERROR) {
                     printf("RX Fail!");
                 } else {
                     printf("RX Success!");
-                    #ifdef DEBUG
                         printf("\nRX data received:");
                         printf("\n     - Pyro 1 command: %d", arc_data.pyro_1);
                         printf("\n     - Pyro 2 command: %d", arc_data.pyro_2);
                         printf("\n     - PTX status: %d", arc_data.ptx_status);
-                    #endif
                 }
-                if (arc_data.pyro_1 == IGNITE) {
+                if (arc_data.pyro_1 == IGNITE && aries_data.prx_status == STATUS_ARMED) {
                     // ignite pyro 1
                     #ifdef DEBUG
                     printf("\nIGNITE PYRO 1");
                     #endif
+                    absolute_time_t warningTimer = make_timeout_time_ms(10000);
+                    while(!time_reached(warningTimer)) {
+                        gpio_put(BUZZ, 1);
+                        sleep_ms(100);
+                        gpio_put(BUZZ, 0);
+                        gpio_put(LED, 1);
+                        sleep_ms(2);
+                        gpio_put(LED, 0);
+                        sleep_ms(100);
+                    }
+                    f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", PYRO 1 IGNITION\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
                     aries_data.pyro_1_feedback = PYRO_ON;
                     gpio_put(PYRO_1, 1);
                     sleep_ms(1000);
@@ -389,9 +422,38 @@ int main() {
                 
             }
 
+            // Update sensor data if ready
+            if (adc_ready && (aries_data.prx_status == STATUS_ARMED)) {
+                // disable interrupts briefly while copying volatile values
+                uint32_t save = save_and_disable_interrupts();
+                int32_t sensor_val = irq_sensor_data;
+                adc_ready = false;
+                restore_interrupts(save);
+                // Update sensor data in aries_data
+                aries_data.sensor_data = sensor_val;
+                // Print data
+                unsigned long long ms = to_ms_since_boot(get_absolute_time());
+                f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 "\n", ms, aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
+                printf("%llu, %" PRId32 ", %" PRId32 ", %" PRId32 "\n", ms, aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
+            }
+
+            // Update Arm Satus
+            if (!(aries_data.prx_status == STATUS_ARMED) && read_adc(ADC_ARM) > 2) {
+                aries_data.prx_status = STATUS_ARMED;
+                fr = f_open(&logfile, filename, FA_OPEN_APPEND | FA_WRITE);
+                f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", ARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
+                printf("%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", ARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
+                gpio_put(BUZZ, 1);
+                sleep_ms(500);
+                gpio_put(BUZZ, 0);
+            }
+            if ((aries_data.prx_status == STATUS_ARMED) && read_adc(ADC_ARM) <= 2) {
+                aries_data.prx_status = STATUS_NORMAL;
+                f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", DISARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
+                printf("%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", DISARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
+                fr = f_close(&logfile);
+            }
+            
         }
-        
     }
 }
-
-

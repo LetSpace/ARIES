@@ -1,0 +1,8 @@
+# CMake generation dependency list for this directory.
+C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/ExternalProject/shared_internal_commands.cmake
+C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/FetchContent.cmake
+C:/Users/coopa/.pico-sdk/picotool/2.2.0/picotool/picotoolConfig.cmake
+C:/Users/coopa/.pico-sdk/picotool/2.2.0/picotool/picotoolConfigVersion.cmake
+C:/Users/coopa/.pico-sdk/picotool/2.2.0/picotool/picotoolTargets-release.cmake
+C:/Users/coopa/.pico-sdk/picotool/2.2.0/picotool/picotoolTargets.cmake
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-nrf24-main/examples/primary_receiver/CMakeLists.txt

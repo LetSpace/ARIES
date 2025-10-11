@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\570d2bbe54c95e0f4e35e7aa58b21dc5\cyw43_bus_pio_spi.pio.h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\81e123cee3f48ea94c222ecd9288ccef\cyw43_driver_picow_cyw43_bus_pio_spi_pio_h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\coopa\.pico-sdk\sdk\2.2.0\src\rp2_common\pico_cyw43_driver\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\pico-sdk\src\rp2_common\pico_cyw43_driver\CMakeFiles\cyw43_driver_picow_cyw43_bus_pio_spi_pio_h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E21A8B8A-FB50-3790-93FE-D228764AD6E5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

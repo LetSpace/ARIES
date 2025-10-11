@@ -1,0 +1,14 @@
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/ARIES.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/ALL_BUILD.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/ZERO_CHECK.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-sdk/CMakeFiles/ALL_BUILD.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_bin.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-sdk/src/rp2040/boot_stage2/CMakeFiles/bs2_default_library.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/cyw43_driver_picow_cyw43_bus_pio_spi_pio_h.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-sdk/src/rp2_common/pico_status_led/CMakeFiles/pico_status_led_ws2812_pio_h.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-nrf24-main/CMakeFiles/ALL_BUILD.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-nrf24-main/examples/primary_receiver/CMakeFiles/primary_receiver.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/pico-nrf24-main/examples/primary_transmitter/CMakeFiles/primary_transmitter.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/hx711-pico-c-main/CMakeFiles/ALL_BUILD.dir
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeFiles/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h.dir

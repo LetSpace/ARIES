@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeASMInformation.cmake
+C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/Compiler/GNU-ASM.cmake
+C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/Compiler/GNU.cmake
+C:/Users/coopa/.pico-sdk/sdk/2.2.0/src/CMakeLists.txt
+C:/Users/coopa/.pico-sdk/sdk/2.2.0/src/cmake/on_device.cmake
+C:/Users/coopa/.pico-sdk/sdk/2.2.0/src/cmake/rp2_common.cmake
+C:/Users/coopa/.pico-sdk/sdk/2.2.0/src/rp2040.cmake
+C:/Users/coopa/.pico-sdk/sdk/2.2.0/src/rp2040/hardware_regs/include/hardware/regs/dreq.h
+C:/Users/coopa/.pico-sdk/sdk/2.2.0/src/rp2040/hardware_regs/include/hardware/regs/intctrl.h

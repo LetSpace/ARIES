@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{91387483-5C7D-32A8-BFBF-9F0D36FF9581}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\cf6598fc4d05d784d1c70fc67cd7453c\rp2040_sdio.pio.h.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating rp2040_sdio.pio.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasm.exe -o c-sdk -v 0 "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/sd_driver/SDIO/rp2040_sdio.pio" "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/rp2040_sdio.pio.h"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\sd_driver\SDIO\rp2040_sdio.pio;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating rp2040_sdio.pio.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasm.exe -o c-sdk -v 0 "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/sd_driver/SDIO/rp2040_sdio.pio" "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/rp2040_sdio.pio.h"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\sd_driver\SDIO\rp2040_sdio.pio;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating rp2040_sdio.pio.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasm.exe -o c-sdk -v 0 "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/sd_driver/SDIO/rp2040_sdio.pio" "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/rp2040_sdio.pio.h"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\sd_driver\SDIO\rp2040_sdio.pio;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating rp2040_sdio.pio.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasm.exe -o c-sdk -v 0 "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/sd_driver/SDIO/rp2040_sdio.pio" "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/rp2040_sdio.pio.h"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\sd_driver\SDIO\rp2040_sdio.pio;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\65dc9d536ecabd2651fdc586ddcd859b\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</VerifyInputsAndOutputsExist>
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</VerifyInputsAndOutputsExist>
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\rp2040_sdio.pio.h;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\coopa\.pico-sdk\cmake\v3.31.5\bin\cmake.exe "-SC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" "-BC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" --check-stamp-file "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfig.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfigVersion.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets-release.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\coopa\.pico-sdk\cmake\v3.31.5\bin\cmake.exe "-SC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" "-BC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" --check-stamp-file "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfig.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfigVersion.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets-release.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\coopa\.pico-sdk\cmake\v3.31.5\bin\cmake.exe "-SC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" "-BC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" --check-stamp-file "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfig.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfigVersion.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets-release.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\coopa\.pico-sdk\cmake\v3.31.5\bin\cmake.exe "-SC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" "-BC:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES" --check-stamp-file "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfig.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmConfigVersion.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets-release.cmake;C:\Users\coopa\.pico-sdk\tools\2.2.0\pioasm\pioasmTargets.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h">
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\ZERO_CHECK.vcxproj">
+      <Project>{5189A364-B66C-383D-8BC1-CA1124A45CC0}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

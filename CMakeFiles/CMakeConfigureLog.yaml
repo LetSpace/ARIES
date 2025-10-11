@@ -1,0 +1,326 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      The target system is: PICO -  - cortex-m0plus
+      The host system is: Windows - 10.0.26100 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/coopa/.pico-sdk/toolchain/14_2_Rel1/bin/arm-none-eabi-gcc.exe 
+      Build flags: -mcpu=cortex-m0plus;-mthumb
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.11.2+c078802d4 for .NET Framework
+      Build started 10/10/2025 5:12:37 PM.
+      
+      Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\3.31.5\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdC.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\3.31.5\\CompilerIdC\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Deleting file "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+        Touching "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate".
+      Done Building Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\3.31.5\\CompilerIdC\\CompilerIdC.vcxproj" (default targets).
+      
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+      
+      Time Elapsed 00:00:00.69
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/3.31.5/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Users/coopa/.pico-sdk/toolchain/14_2_Rel1/bin/arm-none-eabi-g++.exe 
+      Build flags: -mcpu=cortex-m0plus;-mthumb
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild version 17.11.2+c078802d4 for .NET Framework
+      Build started 10/10/2025 5:12:38 PM.
+      
+      Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\3.31.5\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
+      PrepareForBuild:
+        Creating directory "Debug\\".
+        Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+        Creating directory "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Creating "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+        Touching "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\3.31.5\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Deleting file "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+        Touching "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
+      Done Building Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\3.31.5\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (default targets).
+      
+      Build succeeded.
+          0 Warning(s)
+          0 Error(s)
+      
+      Time Elapsed 00:00:00.46
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/3.31.5/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1237 (message)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" matched "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      arm-none-eabi-gcc.exe (Arm GNU Toolchain 14.2.Rel1 (Build arm-14.52)) 14.2.1 20241119
+      Copyright (C) 2024 Free Software Foundation, Inc.
+      This is free software; see the source for copying conditions.  There is NO
+      warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:31 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-lnrk32"
+      binary: "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-lnrk32"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-mcpu=cortex-m0plus -mthumb"
+      CMAKE_C_FLAGS_DEBUG: "-Og"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/Users/coopa/.pico-sdk/sdk/2.2.0/cmake"
+      PICO_SDK_PATH: "C:/Users/coopa/.pico-sdk/sdk/2.2.0"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-lnrk32'
+        
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_7701c.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.11.2+c078802d4 for .NET Framework
+        Build started 10/10/2025 5:12:39 PM.
+        
+        Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Creating directory "cmTC_7701c.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\Debug\\".
+          Creating directory "cmTC_7701c.dir\\Debug\\cmTC_7701c.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_7701c.dir\\Debug\\cmTC_7701c.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_7701c.dir\\Debug\\cmTC_7701c.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\CL.exe /c /W1 /WX- /diagnostics:column /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c11 /Fo"cmTC_7701c.dir\\Debug\\\\" /Fd"cmTC_7701c.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue  -mcpu=cortex-m0plus -mthumb -Og "C:\\Users\\coopa\\.pico-sdk\\cmake\\v3.31.5\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.41.34120 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /W1 /WX- /diagnostics:column /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c11 /Fo"cmTC_7701c.dir\\Debug\\\\" /Fd"cmTC_7701c.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue  -mcpu=cortex-m0plus -mthumb -Og "C:\\Users\\coopa\\.pico-sdk\\cmake\\v3.31.5\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+        cl : command line  warning D9035: option 'Og' has been deprecated and will be removed in a future release [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj]
+        cl : command line  warning D9002: ignoring unknown option '-mcpu=cortex-m0plus' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj]
+        cl : command line  warning D9002: ignoring unknown option '-mthumb' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj]
+          CMakeCCompilerABI.c
+        Link:
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\Debug\\cmTC_7701c.elf" /INCREMENTAL /ILK:"cmTC_7701c.dir\\Debug\\cmTC_7701c.ilk" /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-lnrk32/Debug/cmTC_7701c.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\Debug\\cmTC_7701c.lib" /MACHINE:X64 cmTC_7701c.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_7701c.vcxproj -> C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\Debug\\cmTC_7701c.elf
+        FinalizeBuildStatus:
+          Deleting file "cmTC_7701c.dir\\Debug\\cmTC_7701c.tlog\\unsuccessfulbuild".
+          Touching "cmTC_7701c.dir\\Debug\\cmTC_7701c.tlog\\cmTC_7701c.lastbuildstate".
+        Done Building Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj" (default targets).
+        
+        Build succeeded.
+        
+        "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj" (default target) (1) ->
+        (ClCompile target) -> 
+          cl : command line  warning D9035: option 'Og' has been deprecated and will be removed in a future release [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj]
+          cl : command line  warning D9002: ignoring unknown option '-mcpu=cortex-m0plus' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj]
+          cl : command line  warning D9002: ignoring unknown option '-mthumb' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-lnrk32\\cmTC_7701c.vcxproj]
+        
+            3 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.43
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.41.34120.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:31 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-ro4aei"
+      binary: "C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-ro4aei"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "-mcpu=cortex-m0plus -mthumb"
+      CMAKE_CXX_FLAGS_DEBUG: "-Og"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "C:/Users/coopa/.pico-sdk/sdk/2.2.0/cmake"
+      PICO_SDK_PATH: "C:/Users/coopa/.pico-sdk/sdk/2.2.0"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-ro4aei'
+        
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_5ef8b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild version 17.11.2+c078802d4 for .NET Framework
+        Build started 10/10/2025 5:12:41 PM.
+        
+        Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj" on node 1 (default targets).
+        PrepareForBuild:
+          Creating directory "cmTC_5ef8b.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Creating directory "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\Debug\\".
+          Creating directory "cmTC_5ef8b.dir\\Debug\\cmTC_5ef8b.tlog\\".
+        InitializeBuildStatus:
+          Creating "cmTC_5ef8b.dir\\Debug\\cmTC_5ef8b.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_5ef8b.dir\\Debug\\cmTC_5ef8b.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\HostX64\\x64\\CL.exe /c /W1 /WX- /diagnostics:column /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Fo"cmTC_5ef8b.dir\\Debug\\\\" /Fd"cmTC_5ef8b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  -mcpu=cortex-m0plus -mthumb -Og "C:\\Users\\coopa\\.pico-sdk\\cmake\\v3.31.5\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.41.34120 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /W1 /WX- /diagnostics:column /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Fo"cmTC_5ef8b.dir\\Debug\\\\" /Fd"cmTC_5ef8b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue  -mcpu=cortex-m0plus -mthumb -Og "C:\\Users\\coopa\\.pico-sdk\\cmake\\v3.31.5\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+        cl : command line  warning D9035: option 'Og' has been deprecated and will be removed in a future release [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj]
+        cl : command line  warning D9002: ignoring unknown option '-mcpu=cortex-m0plus' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj]
+        cl : command line  warning D9002: ignoring unknown option '-mthumb' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj]
+          CMakeCXXCompilerABI.cpp
+        Link:
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\Debug\\cmTC_5ef8b.elf" /INCREMENTAL /ILK:"cmTC_5ef8b.dir\\Debug\\cmTC_5ef8b.ilk" /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/CMakeFiles/CMakeScratch/TryCompile-ro4aei/Debug/cmTC_5ef8b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\Debug\\cmTC_5ef8b.lib" /MACHINE:X64 cmTC_5ef8b.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_5ef8b.vcxproj -> C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\Debug\\cmTC_5ef8b.elf
+        FinalizeBuildStatus:
+          Deleting file "cmTC_5ef8b.dir\\Debug\\cmTC_5ef8b.tlog\\unsuccessfulbuild".
+          Touching "cmTC_5ef8b.dir\\Debug\\cmTC_5ef8b.tlog\\cmTC_5ef8b.lastbuildstate".
+        Done Building Project "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj" (default targets).
+        
+        Build succeeded.
+        
+        "C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj" (default target) (1) ->
+        (ClCompile target) -> 
+          cl : command line  warning D9035: option 'Og' has been deprecated and will be removed in a future release [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj]
+          cl : command line  warning D9002: ignoring unknown option '-mcpu=cortex-m0plus' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj]
+          cl : command line  warning D9002: ignoring unknown option '-mthumb' [C:\\Users\\coopa\\OneDrive\\School 2025\\LetSpace\\Software\\ARIES\\ARIES\\CMakeFiles\\CMakeScratch\\TryCompile-ro4aei\\cmTC_5ef8b.vcxproj]
+        
+            3 Warning(s)
+            0 Error(s)
+        
+        Time Elapsed 00:00:00.39
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "C:/Users/coopa/.pico-sdk/cmake/v3.31.5/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:31 (project)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.41.34120.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+...

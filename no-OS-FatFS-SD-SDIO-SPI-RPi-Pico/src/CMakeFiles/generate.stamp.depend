@@ -1,0 +1,6 @@
+# CMake generation dependency list for this directory.
+C:/Users/coopa/.pico-sdk/tools/2.2.0/pioasm/pioasmConfig.cmake
+C:/Users/coopa/.pico-sdk/tools/2.2.0/pioasm/pioasmConfigVersion.cmake
+C:/Users/coopa/.pico-sdk/tools/2.2.0/pioasm/pioasmTargets-release.cmake
+C:/Users/coopa/.pico-sdk/tools/2.2.0/pioasm/pioasmTargets.cmake
+C:/Users/coopa/OneDrive/School 2025/LetSpace/Software/ARIES/ARIES/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src/CMakeLists.txt

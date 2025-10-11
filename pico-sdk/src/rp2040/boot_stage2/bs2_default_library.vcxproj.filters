@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\184f8f45bb34d26c4f060546eb066430\bs2_default.bin.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\184f8f45bb34d26c4f060546eb066430\bs2_default_padded_checksummed.S.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\coopa\.pico-sdk\sdk\2.2.0\src\rp2040\boot_stage2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\pico-sdk\src\rp2040\boot_stage2\bs2_default_padded_checksummed.S" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E21A8B8A-FB50-3790-93FE-D228764AD6E5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

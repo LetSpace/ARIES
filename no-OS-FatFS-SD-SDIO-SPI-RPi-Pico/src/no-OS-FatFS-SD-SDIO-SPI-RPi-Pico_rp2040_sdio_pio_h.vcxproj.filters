@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\cf6598fc4d05d784d1c70fc67cd7453c\rp2040_sdio.pio.h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\CMakeFiles\65dc9d536ecabd2651fdc586ddcd859b\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\coopa\OneDrive\School 2025\LetSpace\Software\ARIES\ARIES\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico\src\CMakeFiles\no-OS-FatFS-SD-SDIO-SPI-RPi-Pico_rp2040_sdio_pio_h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E21A8B8A-FB50-3790-93FE-D228764AD6E5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

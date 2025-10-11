@@ -201,8 +201,9 @@ fn_status_t nrf_driver_initialise(nrf_manager_t *user_config) {
 
   spi_manager_t *spi = &(nrf_driver.user_spi);
 
+  // Disabled CAM 2025-10-10
   // initialise SPI for function duration
-  spi_manager_init_spi(spi->instance, spi->baudrate); 
+  //spi_manager_init_spi(spi->instance, spi->baudrate); 
 
   /** with a VDD of 1.9V or higher, nRF24L01+ enters the Power on reset state **/
 
@@ -297,8 +298,9 @@ fn_status_t nrf_driver_initialise(nrf_manager_t *user_config) {
     flush_rx_fifo();
   }
 
+  // Disabled CAM 2025-10-10
   // deinitialise SPI at function end
-  spi_manager_deinit_spi(spi->instance); 
+  //spi_manager_deinit_spi(spi->instance); 
 
   return status;
 }
@@ -326,8 +328,9 @@ fn_status_t nrf_driver_tx_destination(const uint8_t *buffer) {
 
   spi_manager_t *spi = &(nrf_driver.user_spi);
 
+  // Disabled CAM 2025-10-10
   // initialise SPI for function duration
-  spi_manager_init_spi(spi->instance, spi->baudrate);
+  //spi_manager_init_spi(spi->instance, spi->baudrate);
 
   register_map_t registers[2] = { RX_ADDR_P0, TX_ADDR };
 
@@ -342,8 +345,9 @@ fn_status_t nrf_driver_tx_destination(const uint8_t *buffer) {
     if (status == ERROR) { break; }
   }
 
+  // Disabled CAM 2025-10-10
   // deinitialise SPI at function end
-  spi_manager_deinit_spi(spi->instance); 
+  //spi_manager_deinit_spi(spi->instance); 
 
   return status;
 }
@@ -366,7 +370,8 @@ fn_status_t nrf_driver_rx_destination(data_pipe_t data_pipe, const uint8_t *buff
 
   spi_manager_t *spi = &(nrf_driver.user_spi);
 
-  spi_manager_init_spi(spi->instance, spi->baudrate);
+  // Disabled CAM 2025-10-10
+  //spi_manager_init_spi(spi->instance, spi->baudrate);
 
   uint8_t registers[6] = {
     RX_ADDR_P0, RX_ADDR_P1, RX_ADDR_P2,
@@ -408,7 +413,8 @@ fn_status_t nrf_driver_rx_destination(data_pipe_t data_pipe, const uint8_t *buff
     }
   }
 
-  spi_manager_deinit_spi(spi->instance);
+  // Disabled CAM 2025-10-10
+  //spi_manager_deinit_spi(spi->instance);
 
   return status;
 }
@@ -735,7 +741,8 @@ fn_status_t nrf_driver_standby_mode(void) {
   // initialise SPI at function start
   spi_manager_t *spi = &(nrf_driver.user_spi);
 
-  spi_manager_init_spi(spi->instance, spi->baudrate);
+  // Disabled CAM 2025-10-10
+  //spi_manager_init_spi(spi->instance, spi->baudrate);
 
   fn_status_t status = NRF_MNGR_OK;
 
@@ -863,8 +870,9 @@ fn_status_t nrf_driver_read_packet(void *rx_packet, size_t size) {
 
   spi_manager_t *spi = &(nrf_driver.user_spi);
 
+  // Disabled CAM 2025-10-10
   // initialise SPI at function start
-  spi_manager_init_spi(spi->instance, spi->baudrate);
+  //spi_manager_init_spi(spi->instance, spi->baudrate);
 
   fn_status_t status = SPI_MNGR_OK;
 
@@ -919,8 +927,9 @@ fn_status_t nrf_driver_read_packet(void *rx_packet, size_t size) {
     }
   }
 
+  // Disabled CAM 2025-10-10
   // deinitialise SPI at function end
-  spi_manager_deinit_spi(spi->instance);
+  //spi_manager_deinit_spi(spi->instance);
 
   return status;
 }
@@ -948,7 +957,8 @@ fn_status_t nrf_driver_is_packet(uint8_t *rx_p_no) {
   // NONE_ASSERTED (0), RX_DR_ASSERTED (1), TX_DS_ASSERTED (2), MAX_RT_ASSERTED (3)
   fn_status_t status = (check_status_irq(rx_p_no) == RX_DR_ASSERTED) ? NRF_MNGR_OK : ERROR;
 
-  spi_manager_deinit_spi(spi->instance);
+  // Disabled CAM 2025-10-10
+  //spi_manager_deinit_spi(spi->instance);
 
   return status;
 }
@@ -971,6 +981,7 @@ fn_status_t nrf_driver_receiver_mode(void) {
   
   spi_manager_t *spi = &(nrf_driver.user_spi);
 
+  // Disabled CAM 2025-10-10
   spi_manager_init_spi(spi->instance, spi->baudrate);
 
   // read CONFIG register value
@@ -1005,6 +1016,7 @@ fn_status_t nrf_driver_receiver_mode(void) {
 
   nrf_driver.mode = RX_MODE; // reflect RX Mode in nrf_status
 
+  // Disabled CAM 2025-10-10
   spi_manager_deinit_spi(spi->instance);
 
   return status;
