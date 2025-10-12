@@ -60,6 +60,7 @@ target_include_directories(ARIES PRIVATE
 # Add any user requested libraries
 target_link_libraries(ARIES 
         hardware_spi
+        hardware_adc
         hardware_pio
         hardware_adc
         nrf24_driver
