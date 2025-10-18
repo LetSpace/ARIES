@@ -58,10 +58,10 @@ typedef struct {
 typedef struct {
   int32_t resistance_1; // in milliohms
   int32_t resistance_2; // in milliohms
-  int32_t sensor_data;
-  pyro_state_t pyro_1_feedback;
-  pyro_state_t pyro_2_feedback;
-  status_t prx_status; // 0 = normal, 1 = armed, 2 = error
+  float sensor_data;
+  uint8_t pyro_1_feedback;
+  uint8_t pyro_2_feedback;
+  uint8_t prx_status; // 0 = normal, 1 = armed, 2 = error
 } aries_data_t;
 
 typedef struct {
@@ -155,7 +155,7 @@ void setup() {
   }
   radio.openWritingPipe(aries_address);
   radio.openReadingPipe(1, cris_address);
-  radio.setPALevel(RF24_PA_MIN);
+  radio.setPALevel(RF24_PA_MAX);
   radio.enableDynamicPayloads();
   //radio.disableDynamicPayloads();
   //radio.setPayloadSize(32);
@@ -287,26 +287,41 @@ void loop() {
       lcd.clear();
       lcdReset = false;
     }
+    lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Ch1 R: ");
-    lcd.setCursor(7, 0);
-    lcd.print(aries_data.resistance_1);
+    lcd.print("R1: ");
+    lcd.setCursor(3, 0);
+    if(aries_data.resistance_1 <= 99999) {
+      lcd.print(aries_data.resistance_1);
+    } else {
+      lcd.print("*****");
+    }
+    lcd.setCursor(9, 0);
+    lcd.print(" ");
     lcd.setCursor(0, 1);
-    lcd.print("Ch2 R: ");
-    lcd.setCursor(7, 1);
-    lcd.print(aries_data.resistance_2);
+    lcd.print("R2: ");
+    lcd.setCursor(3, 1);
+    if(aries_data.resistance_2 <= 99999) {
+      lcd.print(aries_data.resistance_2);
+    } else {
+      lcd.print("*****");
+    }
+    lcd.setCursor(9, 1);
+    lcd.print(" ");
     lcd.setCursor(12, 0);
     switch (aries_data.prx_status) {
       case STATUS_NORMAL:
         lcd.print("NORM");
-      break;
+        break;
       case STATUS_ARMED:
         lcd.print("ARM");
-      break;
+        break;
       case STATUS_ERROR:
         lcd.print("ERR");
-      break;
+        break;
     }
+    lcd.setCursor(8, 1);
+    lcd.print(aries_data.sensor_data);
   }
 
   if ((millis() - last_recieve_time) > 2000) {

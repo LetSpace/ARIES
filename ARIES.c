@@ -37,14 +37,17 @@
 //HX711
 #define ADC_DAT 14
 #define ADC_CLK 15
+// Calibration values obtained with ARIES_Calibration
+#define LOADCELL_CALIBRATION_SLOPE -16.666666
+#define LOADCELL_CALIBRATION_INTERCEPT 13014150.000000
+
+// Flash Location for Calibration Data
+#define FLASH_TARGET_OFFSET (512 * 1024)
 
 //Pi ADC
 #define ARM_SENSE 28
 #define PYRO_SENSE_1 27
 #define PYRO_SENSE_2 26
-#define ADC_ARM 2
-#define ADC_PYRO_1 1
-#define ADC_PYRO_2 0
 
 //MOSFETs
 #define PYRO_1 20
@@ -62,7 +65,7 @@ typedef enum{
     ABORT
 } pyro_command_t;
 
-typedef enum{
+typedef enum {
     PYRO_OFF,
     PYRO_ON
 } pyro_state_t;
@@ -82,15 +85,22 @@ typedef struct {
 typedef struct {
     int32_t resistance_1; // in milliohms
     int32_t resistance_2; // in milliohms
-    int32_t sensor_data;
-    pyro_state_t pyro_1_feedback;
-    pyro_state_t pyro_2_feedback;
-    status_t prx_status; // 0 = normal, 1 = armed, 2 = error
+    float sensor_data;
+    uint8_t pyro_1_feedback;
+    uint8_t pyro_2_feedback;
+    uint8_t prx_status; // 0 = normal, 1 = armed, 2 = error
 } aries_data_t;
-
 
 aries_data_t aries_data = {-1, -1, -1, PYRO_OFF, PYRO_OFF, STATUS_NORMAL};
 arc_data_t arc_data = {NO_COMMAND, NO_COMMAND, STATUS_NORMAL};
+
+typedef struct {
+    float slope;
+    float offset;
+} calibration_data_t;
+
+calibration_data_t calibration_data;
+const uint8_t* flash_target_contents = (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET);
 
 hx711_t loadCell;
 volatile bool adc_ready = false;
@@ -104,12 +114,6 @@ void adc_callback(uint gpio, uint32_t events) {
         irq_sensor_data = val;
         adc_ready = true;
     }
-}
-
-float read_adc(uint8_t channel) {
-    const float conversion_factor = 3.3f / (1 << 12);
-    adc_select_input(channel);
-    return adc_read() * conversion_factor;
 }
 
 /* ----- SD CARD HARDWARE DEFINITION ----- */
@@ -150,15 +154,15 @@ const float adc_conversion_factor = 3.3f / (1 << 12);
 // Returns the voltage after the arm switch.
 float get_arm_sense() {
     adc_select_input(2);
-    return adc_read() * adc_conversion_factor * 4;
+    return adc_read() * adc_conversion_factor * (99.1 + 300.5)/99.1; // Arm sense = (Battery Voltage) / 4, actual resistor values used
 }
 
 // Returns the resistance on the given channel (1 or 2) in miliohms.
 int32_t get_resistance(int channel) {
     float v_arm = get_arm_sense();
-
-    adc_select_input(channel - 1);
-    float v_d = adc_read() * adc_conversion_factor * 4; // voltage at mosfet drain
+    adc_select_input(2 - channel);
+    float vd_conversion = (channel == 1) ? ((100 + 298.5)/100) : ((98.1 + 298.1)/98.1);
+    float v_d = adc_read() * adc_conversion_factor * vd_conversion; // voltage at mosfet drain
     float resistance = (v_arm - v_d) / (v_d / 400);
     return resistance * 1000;
 }
@@ -199,10 +203,11 @@ int main() {
     adc_gpio_init(PYRO_SENSE_2);
 
     // if arm switch is on, beep forever (to prohibit turning on while armed)
-    if (read_adc(ADC_ARM) > 2) {
+    if (get_arm_sense() > 5) {
         gpio_put(BUZZ, 1);
         while (true) {}
     }
+
     // Mount SD Card
     // See http://elm-chan.org/fsw/ff/00index_e.html
     FATFS fs;
@@ -312,7 +317,6 @@ int main() {
             sleep_ms(1000);
         }
     }
-    //nrfl_client.payload_size(1, 32);
     nrfl_client.standby_mode();
     sleep_ms(1);
     printf("NRFL init success");
@@ -323,25 +327,30 @@ int main() {
     hxconfig.clock_pin = ADC_CLK;
     hxconfig.data_pin = ADC_DAT;
 
-    // gpio_put(ADC_CLK, 0);
-    // sleep_ms(50);
-
     hx711_init(&loadCell, &hxconfig);
     hx711_power_up(&loadCell, hx711_gain_128);
     hx711_wait_settle(hx711_rate_10);
     sleep_ms(500);
 
-    int32_t test_val;
-    const uint timeout = 250000; //microseconds
-    if(hx711_get_value_timeout(&loadCell, &test_val, timeout)) {
-        printf("\nBlocking HX711 value: %" PRId32 "\n", test_val);
-    } else {
-        printf("\nHX711 blocking read failed\n");
-    }
+    memcpy(&calibration_data, flash_target_contents, sizeof(calibration_data));
 
+    int32_t sum = 0;
+    int32_t sample_val;
+    const uint timeout = 250000; //microseconds
+    for (int i = 0; i < 10; i++) {
+        if (hx711_get_value_timeout(&loadCell, &sample_val, timeout) == false) {
+            printf("HX711 initial read timeout\n");
+        } else {
+            printf("Calibration sample %d: %d\n", i, sample_val);
+        }
+        sum += sample_val;
+    }
+    calibration_data.offset = sum / 10;
+
+    printf("Calibration slope: %f\n", calibration_data.slope);
+    printf("Calibration offset (tare): %f\n", calibration_data.offset);
 
     gpio_set_irq_enabled_with_callback(ADC_DAT, GPIO_IRQ_EDGE_FALL, true, &adc_callback); // TODO
-
 
     /*------MAIN LOOP-------*/
 
@@ -373,11 +382,11 @@ int main() {
         printf("\nTransmitting data...");
         printf("\n - Resistance 1: %d mOhms", aries_data.resistance_1);
         printf("\n - Resistance 2: %d mOhms", aries_data.resistance_2);
-        printf("\n - Sensor data: %d", aries_data.sensor_data);
+        printf("\n - Sensor data: %f", aries_data.sensor_data);
         printf("\n - Pyro 1 feedback: %d", aries_data.pyro_1_feedback);
         printf("\n - Pyro 2 feedback: %d", aries_data.pyro_2_feedback);
         printf("\n - PRX status: %d", aries_data.prx_status);
-        printf("\n - ARMSENSE: %f", read_adc(ADC_ARM));
+        printf("\n - ARMSENSE: %f", get_arm_sense());
         tx_success = nrfl_client.send_packet(&aries_data, sizeof(aries_data));
         if (tx_success == ERROR) {
             printf("\nTX failure\n");
@@ -448,29 +457,30 @@ int main() {
                 adc_ready = false;
                 restore_interrupts(save);
                 // Update sensor data in aries_data
-                aries_data.sensor_data = sensor_val;
+                aries_data.sensor_data = ((float)sensor_val - calibration_data.offset) * calibration_data.slope;
                 // Print data
                 unsigned long long ms = to_ms_since_boot(get_absolute_time());
-                f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 "\n", ms, aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
-                printf("%llu, %" PRId32 ", %" PRId32 ", %" PRId32 "\n", ms, aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
+                f_printf(&logfile, "%llu, %f, %" PRId32 ", %" PRId32 "\n", ms, aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
+                printf("%llu, %f, %" PRId32 ", %" PRId32 "\n", ms, aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
             }
 
             // Update Arm Satus
-            if (!(aries_data.prx_status == STATUS_ARMED) && read_adc(ADC_ARM) > 2) {
+            if (!(aries_data.prx_status == STATUS_ARMED) && get_arm_sense() > 5) {
                 aries_data.prx_status = STATUS_ARMED;
                 fr = f_open(&logfile, filename, FA_OPEN_APPEND | FA_WRITE);
-                f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", ARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
-                printf("%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", ARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
+                f_printf(&logfile, "%llu, %f, %" PRId32 ", %" PRId32 ", ARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
+                printf("%llu, %f, %" PRId32 ", %" PRId32 ", ARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
                 gpio_put(BUZZ, 1);
                 sleep_ms(500);
                 gpio_put(BUZZ, 0);
             }
-            if ((aries_data.prx_status == STATUS_ARMED) && read_adc(ADC_ARM) <= 2) {
+            if ((aries_data.prx_status == STATUS_ARMED) && get_arm_sense() <= 5) {
                 aries_data.prx_status = STATUS_NORMAL;
-                f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", DISARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
-                printf("%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", DISARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
+                f_printf(&logfile, "%llu, %f, %" PRId32 ", %" PRId32 ", DISARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
+                printf("%llu, %f, %" PRId32 ", %" PRId32 ", DISARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
                 fr = f_close(&logfile);
             }
+            
             
         }
     }

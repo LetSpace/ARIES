@@ -63,6 +63,7 @@ target_link_libraries(ARIES
         hardware_adc
         hardware_pio
         hardware_adc
+        hardware_flash
         nrf24_driver
         hx711-pico-c
         no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
