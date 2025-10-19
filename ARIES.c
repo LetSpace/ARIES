@@ -1,8 +1,5 @@
 // TODO 
-// - Radios: Cooper
-// - SD: Josh
-// - Pyro: Josh
-// - HX711: Cooper/Jacob
+// Make header file for data structs
 
 #define DEBUG
 
@@ -96,7 +93,7 @@ arc_data_t arc_data = {NO_COMMAND, NO_COMMAND, STATUS_NORMAL};
 
 typedef struct {
     float slope;
-    float offset;
+    float intercept;
 } calibration_data_t;
 
 calibration_data_t calibration_data;
@@ -105,6 +102,7 @@ const uint8_t* flash_target_contents = (const uint8_t *)(XIP_BASE + FLASH_TARGET
 hx711_t loadCell;
 volatile bool adc_ready = false;
 volatile int32_t irq_sensor_data = 0;
+float tare_value = 0.0;
 
 FIL logfile;
 
@@ -343,12 +341,13 @@ int main() {
         } else {
             printf("Calibration sample %d: %d\n", i, sample_val);
         }
-        sum += sample_val;
+        sum += sample_val * calibration_data.slope + calibration_data.intercept;
     }
-    calibration_data.offset = sum / 10;
-
+    tare_value = sum / 10;
+    
     printf("Calibration slope: %f\n", calibration_data.slope);
-    printf("Calibration offset (tare): %f\n", calibration_data.offset);
+    printf("Calibration intercept: %f\n", calibration_data.intercept);
+    printf("Tare Value: %f\n", tare_value);
 
     gpio_set_irq_enabled_with_callback(ADC_DAT, GPIO_IRQ_EDGE_FALL, true, &adc_callback); // TODO
 
@@ -457,7 +456,7 @@ int main() {
                 adc_ready = false;
                 restore_interrupts(save);
                 // Update sensor data in aries_data
-                aries_data.sensor_data = ((float)sensor_val - calibration_data.offset) * calibration_data.slope;
+                aries_data.sensor_data = sensor_val * calibration_data.slope + calibration_data.intercept - tare_value;
                 // Print data
                 unsigned long long ms = to_ms_since_boot(get_absolute_time());
                 f_printf(&logfile, "%llu, %f, %" PRId32 ", %" PRId32 "\n", ms, aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
