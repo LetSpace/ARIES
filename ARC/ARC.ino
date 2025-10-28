@@ -2,6 +2,7 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 #include <LCD_I2C.h>
+#include <math.h>
 
 #define DEBUG
 
@@ -50,9 +51,9 @@ typedef enum {
 } status_t;
 
 typedef struct {
-  pyro_command_t pyro_1;
-  pyro_command_t pyro_2;
-  status_t ptx_status; // 0 = normal, 1 = armed, 2 = error
+  uint8_t pyro_1;
+  uint8_t pyro_2;
+  uint8_t ptx_status; // 0 = normal, 1 = armed, 2 = error
 } arc_data_t;
 
 typedef struct {
@@ -155,7 +156,7 @@ void setup() {
   }
   radio.openWritingPipe(aries_address);
   radio.openReadingPipe(1, cris_address);
-  radio.setPALevel(RF24_PA_MAX);
+  radio.setPALevel(RF24_PA_MAX); 
   radio.enableDynamicPayloads();
   //radio.disableDynamicPayloads();
   //radio.setPayloadSize(32);
@@ -223,7 +224,7 @@ void loop() {
         }
         else if (buttons.button2 == LOW) {
           while(digitalRead(BUTTON2) == LOW) {}
-          arc_data.pyro_1 = pyroConfirm(2, BUTTON2);
+          arc_data.pyro_2 = pyroConfirm(2, BUTTON2);
           lcdReset = true;
         }
     }
@@ -320,7 +321,9 @@ void loop() {
         lcd.print("ERR");
         break;
     }
-    lcd.setCursor(8, 1);
+    int sensorValPos = 15 - (int)ceil(log10(aries_data.sensor_data)) - ((aries_data.sensor_data < 0) ? 1 : 0);
+    Serial.println(sensorValPos);
+    lcd.setCursor(sensorValPos, 1);
     lcd.print(aries_data.sensor_data);
   }
 

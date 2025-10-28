@@ -42,6 +42,7 @@
         "time.h": "c",
         "string.h": "c",
         "hw_config.h": "c",
-        "adc.h": "c"
+        "adc.h": "c",
+        "f_util.h": "c"
     }
 }

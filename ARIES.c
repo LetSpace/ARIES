@@ -13,13 +13,13 @@
 // FatFS for SD card: https://elm-chan.org/fsw/ff/
 
 // TODO
-// Add channel 2 pyro ignition
-// Make pyro ignition delay non-blocking (so radio transmissions and data collection continue during it)
+// Transmit countdown timer before pyro ignition
 // Put data structs in a separate header file for both ARIES and CRIS to declutter
 // Fix radio bug of only receiving 3 transmissions
 
 
 #define DEBUG
+#define PYRO_WARNING_TIME_S 10
 
 // Import necessary libraries
 #include <stdio.h>
@@ -96,9 +96,9 @@ typedef enum {
 
 // Data sent from CRIS to ARIES
 typedef struct {
-    pyro_command_t pyro_1;
-    pyro_command_t pyro_2;
-    status_t ptx_status; // 0 = normal, 1 = armed, 2 = error
+    uint8_t pyro_1;
+    uint8_t pyro_2;
+    uint8_t ptx_status; // 0 = normal, 1 = armed, 2 = error
 } arc_data_t;
 
 // Data sent from ARIES to CRIS
@@ -195,6 +195,41 @@ int32_t get_resistance(int channel) {
     float v_d = adc_read() * adc_conversion_factor * vd_conversion; // voltage at mosfet drain
     float resistance = (v_arm - v_d) / (v_d / 400);
     return resistance * 1000;
+}
+
+
+/*---------PYRO CALLBACKS---------*/
+
+struct repeating_timer pyro_warning_timer;
+//volatile bool pyro_fired = false;
+
+bool pyro_warning_callback() {
+    gpio_put(BUZZ, 1);
+    busy_wait_ms(100);
+    gpio_put(BUZZ, 0);
+    gpio_put(LED, 1);
+    busy_wait_ms(2);
+    gpio_put(LED, 0);
+    busy_wait_ms(50);
+    return true;
+}
+
+int64_t pyro1_ignition_callback() {
+    //pyro_fired = true;
+    gpio_put(PYRO_1, 1);
+    busy_wait_ms(1000);
+    gpio_put(PYRO_1, 0);
+    cancel_repeating_timer(&pyro_warning_timer);
+    return 0;
+}
+
+int64_t pyro2_ignition_callback() {
+    //pyro_fired = true;
+    gpio_put(PYRO_2, 1);
+    busy_wait_ms(1000);
+    gpio_put(PYRO_2, 0);
+    cancel_repeating_timer(&pyro_warning_timer);
+    return 0;
 }
 
 int main() {
@@ -383,9 +418,9 @@ int main() {
     // Beep to indicate end of setup
     for (int i = 0; i < 2; i++) {
         gpio_put(BUZZ, 1);
-        sleep_ms(100);
+        sleep_ms(50);
         gpio_put(BUZZ, 0);
-        sleep_ms(100);
+        sleep_ms(50);
     }
 
     /*------MAIN LOOP-------*/
@@ -459,32 +494,37 @@ int main() {
                     printf("\nRX data received:");
                     printf("\n     - Pyro 1 command: %d", arc_data.pyro_1);
                     printf("\n     - Pyro 2 command: %d", arc_data.pyro_2);
-                    printf("\n     - PTX status: %d", arc_data.ptx_status);
+                    printf("\n     - PTX status: %d\n", arc_data.ptx_status);
                 }
                 if (arc_data.pyro_1 == IGNITE && aries_data.prx_status == STATUS_ARMED) {
                     // Ignite pyro 1
                     #ifdef DEBUG
                     printf("\nIGNITE PYRO 1");
                     #endif
-                    absolute_time_t warningTimer = make_timeout_time_ms(10000);
-                    while(!time_reached(warningTimer)) {
-                        gpio_put(BUZZ, 1);
-                        sleep_ms(100);
-                        gpio_put(BUZZ, 0);
-                        gpio_put(LED, 1);
-                        sleep_ms(2);
-                        gpio_put(LED, 0);
-                        sleep_ms(100);
-                    }
+                    
+                    // Add a repeating timer for warning buzzer
+                    add_repeating_timer_ms(100, pyro_warning_callback, NULL, &pyro_warning_timer);
+                    
+                    // Add an alarm for pyro ignition
+                    add_alarm_in_ms(PYRO_WARNING_TIME_S * 1000, pyro1_ignition_callback, NULL, false);
+
                     f_printf(&logfile, "%llu, %" PRId32 ", %" PRId32 ", %" PRId32 ", PYRO 1 IGNITION\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2); // time, force, pyro1r, pyro2r, event
-                    aries_data.pyro_1_feedback = PYRO_ON;
-                    gpio_put(PYRO_1, 1);
-                    sleep_ms(1000);
-                    gpio_put(PYRO_1, 0);
-                    aries_data.pyro_1_feedback = PYRO_OFF;
+
                     arc_data.pyro_1 = NO_COMMAND; // reset command
+                } else if (arc_data.pyro_2 == IGNITE && aries_data.prx_status == STATUS_ARMED) {
+                    // Ignite pyro 2
+                    #ifdef DEBUG
+                    printf("\nIGNITE PYRO 2");
+                    #endif
+                    
+                    // Add a repeating timer for warning buzzer
+                    add_repeating_timer_ms(100, pyro_warning_callback, NULL, &pyro_warning_timer);
+
+                    // Add an alarm for pyro ignition
+                    add_alarm_in_ms(PYRO_WARNING_TIME_S * 1000, pyro2_ignition_callback, NULL, false);
+
+                    arc_data.pyro_2 = NO_COMMAND; // reset command
                 }
-                
             }
 
             // Update sensor data if ready
@@ -518,6 +558,13 @@ int main() {
                 printf("%llu, %f, %" PRId32 ", %" PRId32 ", DISARMED\n", to_ms_since_boot(get_absolute_time()), aries_data.sensor_data, aries_data.resistance_1, aries_data.resistance_2);
                 fr = f_close(&logfile);
             }
+
+            // Reset pyro if necessary
+            // if(pyro_fired) {
+            //     cancel_repeating_timer(&pyro_warning_timer);
+            //     pyro_fired = false;
+            // }
+
         }
     }
 }
