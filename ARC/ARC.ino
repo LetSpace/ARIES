@@ -47,7 +47,7 @@ typedef enum{
 typedef enum {
   STATUS_NORMAL,
   STATUS_ARMED,
-  STATUS_ERROR
+  STATUS_ERROR,
 } status_t;
 
 typedef struct {
@@ -60,6 +60,7 @@ typedef struct {
   int32_t resistance_1; // in milliohms
   int32_t resistance_2; // in milliohms
   float sensor_data;
+  int32_t countdown;
   uint8_t pyro_1_feedback;
   uint8_t pyro_2_feedback;
   uint8_t prx_status; // 0 = normal, 1 = armed, 2 = error
@@ -85,12 +86,11 @@ bool lcdReset = false;
 // Initialize data structs
 arc_data_t arc_data = {NO_COMMAND, NO_COMMAND, STATUS_NORMAL};
 
-aries_data_t aries_data = {-1, -1, -1, PYRO_OFF, PYRO_OFF, STATUS_NORMAL};
+aries_data_t aries_data = {-1, -1, -1, -1, PYRO_OFF, PYRO_OFF, STATUS_NORMAL};
 
 button_data_t buttons = {true, true, true};
 
 button_data_t buttons_last = {true, true, true};
-
 
 
 pyro_command_t pyroConfirm(int pyroNum, int buttonNum) {
@@ -250,7 +250,7 @@ void loop() {
         lcd.setCursor(3, 0);
         lcd.print("TX Failure!");
       }
-      delay(2000);
+      delay(1000);
       lcd.clear();
       radio.startListening();
       radio.flush_tx();
@@ -259,7 +259,6 @@ void loop() {
     // Reset Data
     arc_data.pyro_1 = NO_COMMAND;
     arc_data.pyro_2 = NO_COMMAND;
-
 
 
     // Update buttons_last
@@ -315,7 +314,11 @@ void loop() {
         lcd.print("NORM");
         break;
       case STATUS_ARMED:
-        lcd.print("ARM");
+        if (aries_data.countdown > -1) {
+          lcd.print(aries_data.countdown);
+        } else {
+          lcd.print("ARM");
+        }
         break;
       case STATUS_ERROR:
         lcd.print("ERR");

@@ -91,7 +91,7 @@ typedef enum {
 typedef enum {
     STATUS_NORMAL,
     STATUS_ARMED,
-    STATUS_ERROR
+    STATUS_ERROR,
 } status_t;
 
 // Data sent from CRIS to ARIES
@@ -106,13 +106,14 @@ typedef struct {
     int32_t resistance_1; // in milliohms
     int32_t resistance_2; // in milliohms
     float sensor_data;
+    int32_t countdown;
     uint8_t pyro_1_feedback;
     uint8_t pyro_2_feedback;
-    uint8_t prx_status; // 0 = normal, 1 = armed, 2 = error
+    uint8_t prx_status; // 0 = normal, 1 = armed, 2 = error, 3 = fire
 } aries_data_t;
 
 // Initialize data structs with default values
-aries_data_t aries_data = {-1, -1, -1, PYRO_OFF, PYRO_OFF, STATUS_NORMAL};
+aries_data_t aries_data = {-1, -1, -1, -1, PYRO_OFF, PYRO_OFF, STATUS_NORMAL};
 arc_data_t arc_data = {NO_COMMAND, NO_COMMAND, STATUS_NORMAL};
 
 // Data used to calibrate the load cell using a linear slope-intercept model
@@ -200,6 +201,7 @@ int32_t get_resistance(int channel) {
 
 /*---------PYRO CALLBACKS---------*/
 
+absolute_time_t countdown_start;
 struct repeating_timer pyro_warning_timer;
 //volatile bool pyro_fired = false;
 
@@ -211,6 +213,7 @@ bool pyro_warning_callback() {
     busy_wait_ms(2);
     gpio_put(LED, 0);
     busy_wait_ms(50);
+    aries_data.countdown = PYRO_WARNING_TIME_S - ((to_ms_since_boot(get_absolute_time()) - to_ms_since_boot(countdown_start)) / 1000);
     return true;
 }
 
@@ -220,6 +223,7 @@ int64_t pyro1_ignition_callback() {
     busy_wait_ms(1000);
     gpio_put(PYRO_1, 0);
     cancel_repeating_timer(&pyro_warning_timer);
+    aries_data.countdown = -1;
     return 0;
 }
 
@@ -229,6 +233,7 @@ int64_t pyro2_ignition_callback() {
     busy_wait_ms(1000);
     gpio_put(PYRO_2, 0);
     cancel_repeating_timer(&pyro_warning_timer);
+    aries_data.countdown = -1;
     return 0;
 }
 
@@ -447,6 +452,7 @@ int main() {
         aries_data.resistance_1 = get_resistance(1);
         aries_data.resistance_2 = get_resistance(2);
 
+
         // Transmit data
         if(nrfl_client.standby_mode() == ERROR) {
             printf("\nNRFL standby failure");
@@ -455,6 +461,7 @@ int main() {
         printf("\n - Resistance 1: %d mOhms", aries_data.resistance_1);
         printf("\n - Resistance 2: %d mOhms", aries_data.resistance_2);
         printf("\n - Sensor data: %f", aries_data.sensor_data);
+        printf("\n - Countdown: %d", aries_data.countdown);
         printf("\n - Pyro 1 feedback: %d", aries_data.pyro_1_feedback);
         printf("\n - Pyro 2 feedback: %d", aries_data.pyro_2_feedback);
         printf("\n - PRX status: %d", aries_data.prx_status);
@@ -501,9 +508,12 @@ int main() {
                     #ifdef DEBUG
                     printf("\nIGNITE PYRO 1");
                     #endif
-                    
+
+                    countdown_start = get_absolute_time();
+                    printf("\nCountdown start: %d\n", to_ms_since_boot(countdown_start));
+
                     // Add a repeating timer for warning buzzer
-                    add_repeating_timer_ms(100, pyro_warning_callback, NULL, &pyro_warning_timer);
+                    add_repeating_timer_ms(-200, pyro_warning_callback, NULL, &pyro_warning_timer);
                     
                     // Add an alarm for pyro ignition
                     add_alarm_in_ms(PYRO_WARNING_TIME_S * 1000, pyro1_ignition_callback, NULL, false);
@@ -516,9 +526,11 @@ int main() {
                     #ifdef DEBUG
                     printf("\nIGNITE PYRO 2");
                     #endif
-                    
+
+                    countdown_start = get_absolute_time();
+
                     // Add a repeating timer for warning buzzer
-                    add_repeating_timer_ms(100, pyro_warning_callback, NULL, &pyro_warning_timer);
+                    add_repeating_timer_ms(-200, pyro_warning_callback, NULL, &pyro_warning_timer);
 
                     // Add an alarm for pyro ignition
                     add_alarm_in_ms(PYRO_WARNING_TIME_S * 1000, pyro2_ignition_callback, NULL, false);
