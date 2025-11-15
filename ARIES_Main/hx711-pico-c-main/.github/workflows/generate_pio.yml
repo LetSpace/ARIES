@@ -1,0 +1,29 @@
+name: Generate PIO header files
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: endail/pioasm-action@v1
+        with:
+          files: src/*.pio
+          outdir: include
+          format: c-sdk
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Assemble .pio files
+          file_pattern: include/*.h
