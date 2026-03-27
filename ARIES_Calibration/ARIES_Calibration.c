@@ -92,24 +92,32 @@ int main()
     
     sleep_ms(5000);
 
-    // float sensorVal = 0.0;
-    // float weight;
-    // for(int i = 0; i < 5; i++) {
-    //     printf("\nTrial %d:", i+1);
-    //     printf("\nPlace known weight on scale. Enter weight in grams and press enter:");
-    //     scanf("%1024s", buffer);
-    //     weight = atoi(buffer);
-    //     printf("\nWeight recorded: %f", weight);
-    //     sensorVal = read_averaged_value();
-    //     printf("\nSensor value recorded: %f", sensorVal);
-    // }
+    /*  The code below takes a number of data points and outputs (1) the measured value of the load cell and (2) the value entered in the terminal. 
+        This can be used to calculate the slope and intercept using Excel. */
 
-    printf("\nEnter calculated slope and press enter:");
-    scanf("%1024s", buffer);
-    calibration_data.slope = atof(buffer);
-    printf("\nEnter calculated intercept and press enter:");
-    scanf("%1024s", buffer);
-    calibration_data.intercept = atof(buffer);
+    float sensorVal = 0.0;
+    float weight;
+    for(int i = 0; i < 5; i++) {
+        printf("\nTrial %d:", i+1);
+        printf("\nPlace known weight on scale. Enter weight in grams and press enter:");
+        scanf("%1024s", buffer);
+        weight = atoi(buffer);
+        printf("\nWeight recorded: %f", weight);
+        sensorVal = read_averaged_value();
+        printf("\nSensor value recorded: %f", sensorVal);
+    }
+
+    /* The code below can be used to enter a slope and intercept calculated externally by the user. */
+
+    // printf("\nEnter calculated slope and press enter:");
+    // scanf("%1024s", buffer);
+    // calibration_data.slope = atof(buffer);
+    // printf("\nEnter calculated intercept and press enter:");
+    // scanf("%1024s", buffer);
+    // calibration_data.intercept = atof(buffer);
+
+    /*  The code below calculates a slope and intercept using two data points. This is less accurate than using more data points and finding the slope and intercept
+        in Excel using regression. */
 
     // printf("\nPlace first known weight on scale. Enter weight in grams and press enter:");
     // scanf("%1024s", buffer);
@@ -132,7 +140,7 @@ int main()
     // calibration_data.intercept = intercept;
 
 
-    // Store data to flash
+    /*  The code below saves the calibration data to the flash memory, so the main ARIES program can access it later. */
     uint32_t interrupts = save_and_disable_interrupts();
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
     flash_range_program(FLASH_TARGET_OFFSET, (uint8_t*) &calibration_data, FLASH_PAGE_SIZE);
